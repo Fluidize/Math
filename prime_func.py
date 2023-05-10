@@ -1,4 +1,5 @@
-import tqdm
+import os, math
+from tqdm import tqdm
 
 #OLD ALGORITHM
 # def SOE(count):
@@ -17,13 +18,16 @@ import tqdm
 #         num += 1 
 #     return array
 
+#sieve of eratotheses
 def gen_primes(count):
     arr = [x for x in range(count+1)]; arr[0:2] = []
-    print(len(arr))
     iteration = 0;
     while True:
-        divisor = arr[iteration]; count = 0
-        for num in tqdm.tqdm(arr):
+        try:
+            divisor = arr[iteration]; count = 0
+        except:
+            return arr
+        for num in tqdm(arr):
             if not (num % divisor) and (not (num == divisor)):
                 arr.remove(num)
                 count += 1
@@ -32,7 +36,31 @@ def gen_primes(count):
         iteration += 1
     return arr
 
+#trial division
+def is_prime(num):
+    primes = gen_primes(math.floor(math.sqrt(num)))
+    for prime in tqdm(primes):
+        if num % prime == 0:
+            return False
+    return True
 
+def prime_factor(num):
+    primes = gen_primes(math.floor(math.sqrt(num)))
+    factors = []
+    for prime in tqdm(primes):
+        while True:
+            if (num % prime == 0):
+                factors.append(prime)
+                num /= prime
+            else:
+                break
+    
+    #special case
+    if is_prime(num) and not 1:
+        factors.append(int(num))
+    
+    if factors == []: return [num]
+    return factors
 
 if __name__ == "__main__":
-    print(len(gen_primes(100000)))
+   print(prime_factor(1495641))
