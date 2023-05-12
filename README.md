@@ -1,2 +1,2 @@
 # Prime Numbers
->Stuff related to ***prime numbers***.
+Algorithms related to ***prime numbers***.
