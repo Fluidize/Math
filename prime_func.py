@@ -1,6 +1,6 @@
-import os, math
+import math
 from tqdm import tqdm
-
+from numba import jit, cuda
 #OLD ALGORITHM
 # def SOE(count):
 #     num = 0
@@ -19,10 +19,11 @@ from tqdm import tqdm
 #     return array
 
 #sieve of eratotheses
+
 def gen_primes(count):
     arr = [x for x in range(count+1)]; arr[0:2] = []
     iteration = 0;
-    while True:
+    while 1:
         try:
             divisor = arr[iteration]; count = 0
         except:
@@ -45,22 +46,31 @@ def is_prime(num):
     return True
 
 def prime_factor(num):
-    primes = gen_primes(math.floor(math.sqrt(num)))
+    original = num
+    primes = gen_primes(math.ceil(math.sqrt(num)))
     factors = []
-    for prime in tqdm(primes):
-        while True:
-            if (num % prime == 0):
+    for prime in primes:
+        while 1:
+            if num % prime == 0:
                 factors.append(prime)
                 num /= prime
             else:
                 break
     
-    #special case
-    if is_prime(num) and not 1:
-        factors.append(int(num))
-    
-    if factors == []: return [num]
+    #for large numbers
+    while 1:
+        mult = 1
+        for factor in factors:
+            mult *= factor
+        print(num,mult)
+        if num % mult == 0 or num*mult == original:
+            factors.append(int(num))
+        elif num % mult != 0:
+            break
+
+
     return factors
 
+
 if __name__ == "__main__":
-   print(prime_factor(1495641))
+   print(prime_factor(654376892765))

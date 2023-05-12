@@ -11,5 +11,17 @@ def checksum(binary, alg="sha1"):
     if alg == "sha512":
         return hashlib.sha512(binary).hexdigest()
 
+def convert_base(inp, inp_base, outp_base):
+    #to make iterable
+    inp = str(inp)
+    print(inp,inp_base,outp_base)
+    if inp_base < outp_base:
+        outp = 0
+        for digit_count, digit in enumerate(inp):
+            outp += (inp_base**digit_count)*int(digit)
+    
+    return outp
+
+
 if __name__ == "__main__":
-    pass
+    print(convert_base(111111, 10, 3))
