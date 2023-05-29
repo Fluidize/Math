@@ -13,15 +13,18 @@ def checksum(binary, alg="sha1"):
 
 def convert_base(inp, inp_base, outp_base):
     #to make iterable
-    inp = str(inp)
     print(inp,inp_base,outp_base)
-    if inp_base < outp_base:
-        outp = 0
-        for digit_count, digit in enumerate(inp):
-            outp += (inp_base**digit_count)*int(digit)
-    
-    return outp
+    # if inp_base < outp_base:
+    #     outp = 0
+    #     for digit_count, digit in enumerate(inp):
+    #         outp += (inp_base**digit_count)*int(digit)
+    arr = []
+    while True:
+        inp %= outp_base
+        arr.append(inp)
+
+    return arr
 
 
 if __name__ == "__main__":
-    print(convert_base(111111, 10, 3))
+    print(convert_base(45, 10, 3))
